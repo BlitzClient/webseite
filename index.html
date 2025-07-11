@@ -1,85 +1,79 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlitzClient - Der schnellste Minecraft Client</title>
+    <title>BlitzClient - Ultimate Minecraft Experience</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/4wFPrT9/favicon.png">
+    <meta property="og:image" content="https://i.ibb.co/4wFPrT9/favicon.png">
+    <meta name="twitter:image" content="https://i.ibb.co/4wFPrT9/favicon.png">
+    <meta name="theme-color" content="#00E0DC">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://i.ibb.co/jPVvyqH0/blitzclient-icon.png" type="image/png">
+    <script src="https://unpkg.com/gsap@3.9.0/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3.9.0/dist/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #00E0DC;
+            --primary-dark: #00B3AF;
+            --bg-dark: #0A0A0A;
+            --bg-darker: #050505;
+        }
+        
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #ffffff;
-            color: #000000;
+            font-family: 'Urbanist', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
             overflow-x: hidden;
-            position: relative;
+            scroll-behavior: smooth;
         }
         
-        .lightning {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.03;
-            pointer-events: none;
+        .glass-card {
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        .lightning-path {
-            stroke: #40E0D0;
-            stroke-width: 1.5;
-            fill: none;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: dash 15s linear infinite;
+        .glow {
+            text-shadow: 0 0 10px rgba(0, 224, 220, 0.7);
         }
         
-        @keyframes dash {
-            0% {
-                stroke-dashoffset: 1000;
-                opacity: 0;
-            }
-            5% {
-                opacity: 0.3;
-            }
-            10% {
-                stroke-dashoffset: 0;
-                opacity: 0;
-            }
-            100% {
-                stroke-dashoffset: 0;
-                opacity: 0;
-            }
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(64, 224, 208, 0.1);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .btn-download {
-            background-color: #40E0D0;
-            color: #000000;
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(0, 224, 220, 0.5);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(64, 224, 208, 0.25);
         }
         
-        .btn-download:hover {
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(0, 224, 220, 0.8);
             transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(64, 224, 208, 0.35);
         }
         
-        .btn-download:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(64, 224, 208, 0.25);
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        
+        .hero-bg {
+            background: radial-gradient(circle at center, rgba(0, 224, 220, 0.1) 0%, rgba(10, 10, 10, 0) 70%);
+        }
+        
+        .feature-card:hover {
+            transform: rotateY(10deg) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 224, 220, 0.3);
+        }
+        
+        .changelog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 224, 220, 0.4);
+        }
+        
+        .social-icon:hover {
+            filter: drop-shadow(0 0 8px rgba(0, 224, 220, 0.8));
         }
         
         .nav-link {
@@ -93,387 +87,619 @@
             height: 2px;
             bottom: -2px;
             left: 0;
-            background-color: #40E0D0;
+            background-color: var(--primary);
             transition: width 0.3s ease;
         }
         
         .nav-link:hover::after {
             width: 100%;
         }
+        
+        .animate-text {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .animate-delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInTopLeft {
+            from {
+                opacity: 0;
+                transform: translate(-50px, -50px) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0);
+            }
+        }
+        
+        @keyframes slideInBottomRight {
+            from {
+                opacity: 0;
+                transform: translate(50px, 50px) rotate(5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0);
+            }
+        }
+
+        @keyframes swingInTopLeft {
+            0% {
+                opacity: 0;
+                transform: translate(-100px, -100px) rotate(-30deg);
+            }
+            70% {
+                transform: translate(0, 0) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .swing-in-tl {
+            animation: swingInTopLeft 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .logo-pulse {
+            animation: pulse 4s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(0, 224, 220, 0.3));
+            }
+            100% {
+                filter: drop-shadow(0 0 25px rgba(0, 224, 220, 0.7));
+            }
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+        }
+        
+        .scroll-down::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: scrollDown 2s infinite;
+        }
+        
+        @keyframes scrollDown {
+            0% {
+                opacity: 1;
+                top: 8px;
+            }
+            100% {
+                opacity: 0;
+                top: 30px;
+            }
+        }
+        
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
     </style>
 </head>
-<body>
-    <!-- Lightning Background Animation -->
-    <svg class="lightning" id="lightningCanvas" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-        <!-- Lightning paths will be added by JavaScript -->
-    </svg>
-
-    <!-- Header -->
-    <header class="py-6 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <div class="w-10 h-10 rounded-lg bg-[#40E0D0] flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+<body class="relative">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-opacity-90 backdrop-filter backdrop-blur-lg" id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-white">
+                        <span class="text-[#00E0DC]">Blitz</span>Client
+                    </span>
                 </div>
-                <span class="text-xl font-bold">BlitzClient</span>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-[#00E0DC] transition-colors duration-300">Home</a>
+                    <a href="#features" class="nav-link text-white hover:text-[#00E0DC] transition-colors duration-300">Features</a>
+                    <a href="#changelog" class="nav-link text-white hover:text-[#00E0DC] transition-colors duration-300">Changelog</a>
+                    <a href="#screenshots" class="nav-link text-white hover:text-[#00E0DC] transition-colors duration-300">Screenshots</a>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="btn-glow bg-[#00E0DC] hover:bg-[#00B3AF] text-black font-bold px-6 py-2 rounded-md transition-all duration-300">
+                        Download
+                    </a>
+                </div>
             </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="#" class="nav-link font-medium">Home</a>
-                <a href="#features" class="nav-link font-medium">Features</a>
-                <a href="#download" class="nav-link font-medium">Download</a>
-                <a href="#support" class="nav-link font-medium">Support</a>
-            </nav>
-            <button class="md:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="py-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">BlitzClient herunterladen</h1>
-            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10">Schnell. Sicher. Effizient. Für Minecraft.</p>
-            <p class="text-lg max-w-2xl mx-auto mb-12">Der schnellste und sicherste Minecraft Client für deine Abenteuer. Lade jetzt herunter und erlebe Minecraft wie nie zuvor – blitzschnell und stabil.</p>
-            <a href="#download" class="btn-download inline-block px-8 py-4 rounded-lg font-bold text-lg">Jetzt downloaden</a>
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden hero-bg grid-pattern">
+        <div class="absolute inset-0 z-0 opacity-20 animate-float" style="background-image: url('https://images.unsplash.com/photo-1607513746994-51f730a44832?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; animation: float 20s ease-in-out infinite;"></div>
+        <div class="absolute inset-0 z-0 opacity-10" style="background: radial-gradient(circle at 20% 30%, rgba(0, 224, 220, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0, 224, 220, 0.15) 0%, transparent 40%);"></div>
+        
+        <div class="container mx-auto px-6 z-10 text-center">
+            <div class="flex flex-col items-center justify-center">
+                <div class="logo-pulse mb-8">
+                    <h1 class="text-6xl md:text-8xl font-bold mb-4">
+                        <span class="text-[#00E0DC] swing-in-tl">Blitz</span>
+                        <span class="text-white bounce-in" style="animation-delay: 0.3s">Client</span>
+                    </h1>
+                </div>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 animate-text fade-in-up">
+                    The ultimate Minecraft client packed with powerful features, stunning visuals, and unbeatable performance.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 animate-text fade-in-up animate-delay-1">
+                    <a href="#" class="btn-glow bg-[#00E0DC] hover:bg-[#00B3AF] text-black font-bold px-8 py-3 rounded-md text-lg transition-all duration-300">
+                        Download Now
+                    </a>
+                    <a href="#" class="glass-card border border-[#00E0DC] hover:bg-[#00E0DC] hover:bg-opacity-10 text-white font-bold px-8 py-3 rounded-md text-lg transition-all duration-300">
+                        <i class="fab fa-discord mr-2"></i> Join Discord
+                    </a>
+                </div>
+            </div>
         </div>
+        
+        <div class="scroll-down animate-text fade-in-up animate-delay-2"></div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-16">Warum BlitzClient?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <section id="features" class="py-20 bg-[#0A0A0A] relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-text fade-in-up">
+                    <span class="text-[#00E0DC]">Why Choose</span> BlitzClient?
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto animate-text fade-in-up animate-delay-1">
+                    Packed with innovative features designed to enhance your Minecraft experience.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text swing-in-tl" style="animation-delay: 0.2s">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Blitzschnell</h3>
-                    <p class="text-gray-700">Optimierte Performance für höhere FPS und reduzierte Ladezeiten. Erlebe Minecraft wie nie zuvor.</p>
+                    <h3 class="text-2xl font-bold mb-3">Lightning Fast</h3>
+                    <p class="text-gray-400">
+                        Optimized for maximum performance with minimal resource usage. Experience buttery smooth gameplay even on lower-end systems.
+                    </p>
                 </div>
                 
                 <!-- Feature 2 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text swing-in-tl" style="animation-delay: 0.4s">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-palette"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Sicherheit</h3>
-                    <p class="text-gray-700">Integrierter Schutz vor Betrug und Hackern. Dein Account bleibt sicher.</p>
+                    <h3 class="text-2xl font-bold mb-3">Custom UI</h3>
+                    <p class="text-gray-400">
+                        Fully customizable interface with themes, HUD elements, and layout options to suit your playstyle.
+                    </p>
                 </div>
                 
                 <!-- Feature 3 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text swing-in-tl" style="animation-delay: 0.6s">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Anpassbar</h3>
-                    <p class="text-gray-700">Zahlreiche Einstellungsmöglichkeiten für ein personalisiertes Spielerlebnis.</p>
+                    <h3 class="text-2xl font-bold mb-3">Advanced Security</h3>
+                    <p class="text-gray-400">
+                        Built-in anti-cheat detection and account protection to keep you safe while playing.
+                    </p>
                 </div>
                 
                 <!-- Feature 4 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text fade-in-up">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-sliders-h"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Zuverlässig</h3>
-                    <p class="text-gray-700">Stabile Verbindung ohne Lags oder Abstürze. Konzentriere dich aufs Spielen.</p>
+                    <h3 class="text-2xl font-bold mb-3">Performance Boost</h3>
+                    <p class="text-gray-400">
+                        Special optimizations that can increase your FPS by up to 300% compared to vanilla Minecraft.
+                    </p>
                 </div>
                 
                 <!-- Feature 5 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text fade-in-up animate-delay-1">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Aktuell</h3>
-                    <p class="text-gray-700">Regelmäßige Updates mit neuen Funktionen und Kompatibilität für die neuesten Minecraft-Versionen.</p>
+                    <h3 class="text-2xl font-bold mb-3">Smart Automation</h3>
+                    <p class="text-gray-400">
+                        Advanced macros and automation tools to streamline repetitive tasks and improve efficiency.
+                    </p>
                 </div>
                 
                 <!-- Feature 6 -->
-                <div class="text-center">
-                    <div class="feature-icon mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#40E0D0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
+                <div class="glass-card p-8 rounded-xl feature-card transition-all duration-500 hover:border-[#00E0DC] border border-transparent animate-text fade-in-up animate-delay-2">
+                    <div class="text-[#00E0DC] text-4xl mb-4">
+                        <i class="fas fa-sync-alt"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Community</h3>
-                    <p class="text-gray-700">Aktive Community und Support für alle Fragen rund um den Client.</p>
+                    <h3 class="text-2xl font-bold mb-3">Regular Updates</h3>
+                    <p class="text-gray-400">
+                        Frequent updates with new features, bug fixes, and improvements based on community feedback.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="py-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-8">BlitzClient herunterladen</h2>
-            <p class="text-xl mb-12">Wähle deine Plattform und starte noch heute mit dem schnellsten Minecraft Client.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#40E0D0] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                    </svg>
-                    <h3 class="text-xl font-bold mb-3">Windows</h3>
-                    <p class="text-gray-700 mb-4">Windows 10/11 (64-bit)</p>
-                    <a href="#" class="btn-download inline-block px-6 py-3 rounded-lg font-bold">Download für Windows</a>
-                </div>
-                
-                <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#40E0D0] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <h3 class="text-xl font-bold mb-3">macOS</h3>
-                    <p class="text-gray-700 mb-4">macOS 10.14 oder neuer</p>
-                    <a href="#" class="btn-download inline-block px-6 py-3 rounded-lg font-bold">Download für Mac</a>
-                </div>
+    <!-- Changelog Section -->
+    <section id="changelog" class="py-20 bg-[#050505] relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-text fade-in-up">
+                    Latest <span class="text-[#00E0DC]">Updates</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto animate-text fade-in-up animate-delay-1">
+                    Stay up to date with the newest features and improvements.
+                </p>
             </div>
             
-            <div class="bg-gray-50 p-6 rounded-lg text-left">
-                <h3 class="text-xl font-bold mb-4">Systemanforderungen</h3>
-                <ul class="space-y-2">
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#40E0D0] mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Betriebssystem: Windows 10/11 (64-bit) oder macOS 10.14+</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#40E0D0] mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Prozessor: Intel Core i3 oder äquivalent</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#40E0D0] mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Arbeitsspeicher: 4 GB RAM</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#40E0D0] mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Grafik: Intel HD Graphics oder besser</span>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#40E0D0] mr-2 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                        </svg>
-                        <span>Speicher: 500 MB freier Festplattenspeicher</span>
-                    </li>
-                </ul>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Update 1 -->
+                <div class="glass-card p-6 rounded-xl changelog-card transition-all duration-500 animate-text fade-in-up">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[#00E0DC] font-bold">v2.4.1</span>
+                        <span class="text-gray-400 text-sm">June 15, 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Performance Update</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Improved FPS by 15% on average</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Reduced memory usage by 20%</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Fixed chunk loading stutter</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Update 2 -->
+                <div class="glass-card p-6 rounded-xl changelog-card transition-all duration-500 animate-text fade-in-up animate-delay-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[#00E0DC] font-bold">v2.4.0</span>
+                        <span class="text-gray-400 text-sm">May 28, 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">New Features</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Added new customizable HUD</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Implemented advanced zoom</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Added 5 new visual themes</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Update 3 -->
+                <div class="glass-card p-6 rounded-xl changelog-card transition-all duration-500 animate-text fade-in-up animate-delay-2">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[#00E0DC] font-bold">v2.3.2</span>
+                        <span class="text-gray-400 text-sm">April 10, 2023</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Bug Fixes</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Fixed inventory sorting issue</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Resolved memory leak in GUI</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00E0DC] mr-2">+</span>
+                            <span>Patched security vulnerability</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 animate-text fade-in-up">
+                <a href="#" class="inline-block glass-card border border-[#00E0DC] hover:bg-[#00E0DC] hover:bg-opacity-10 text-white font-bold px-8 py-3 rounded-md text-lg transition-all duration-300">
+                    View Full Changelog
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Partner Section -->
-    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-white">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-lg text-gray-1000 mb-4">Offizieller Partner von AirVM Hosting ♥️</p>
-            <a href="https://airvm.de/" target="_blank" class="btn-download inline-block px-6 py-3 rounded-lg font-bold">Zum Anbieter</a>
-        </div>
-    </section>
-
-    <!-- Support Section -->
-    <section id="support" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12">Support & Community</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Häufige Fragen</h3>
-                    <div class="space-y-4">
-                        <div class="border-b border-gray-200 pb-4">
-                            <h4 class="font-medium">Ist BlitzClient kostenlos?</h4>
-                            <p class="text-gray-700 mt-1">Ja, BlitzClient ist komplett kostenlos und wird es auch bleiben.</p>
-                        </div>
-                        <div class="border-b border-gray-200 pb-4">
-                            <h4 class="font-medium">Ist BlitzClient sicher?</h4>
-                            <p class="text-gray-700 mt-1">Absolut! Wir legen größten Wert auf Sicherheit und der Client wird regelmäßig auf Sicherheitslücken überprüft.</p>
-                        </div>
-                        <div class="border-b border-gray-200 pb-4">
-                            <h4 class="font-medium">Welche Minecraft-Versionen werden unterstützt?</h4>
-                            <p class="text-gray-700 mt-1">BlitzClient unterstützt alle aktuellen Minecraft-Versionen ab 1.16.5.</p>
+    <!-- Screenshots Section -->
+    <section id="screenshots" class="py-20 bg-[#0A0A0A] relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 animate-text fade-in-up">
+                    <span class="text-[#00E0DC]">See It</span> In Action
+                </h2>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto animate-text fade-in-up animate-delay-1">
+                    Check out these screenshots showcasing BlitzClient's powerful features.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Screenshot 1 -->
+                <div class="hover-scale">
+                    <div class="glass-card rounded-xl overflow-hidden animate-float" style="animation: slideInBottomRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.2s, float 6s ease-in-out infinite 1s;">
+                        <img src="https://images.unsplash.com/photo-1587573089734-599851b5d4b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="BlitzClient UI" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold">Customizable UI</h3>
+                            <p class="text-gray-400 text-sm">Fully themeable interface</p>
                         </div>
                     </div>
                 </div>
                 
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Kontakt & Social Media</h3>
-                    <div class="flex space-x-4 mb-6">
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-[#40E0D0] transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-[#40E0D0] transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-[#40E0D0] transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-[#40E0D0] transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-[#40E0D0] transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </a>
+                <!-- Screenshot 2 -->
+                <div class="hover-scale">
+                    <div class="glass-card rounded-xl overflow-hidden animate-float" style="animation: slideInBottomRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.4s, float 6s ease-in-out infinite 1.2s;">
+                        <img src="https://images.unsplash.com/photo-1627855437693-dcc7b0c6a487?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="BlitzClient Performance" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold">Performance Metrics</h3>
+                            <p class="text-gray-400 text-sm">Real-time FPS and resource monitoring</p>
+                        </div>
                     </div>
-                    <h4 class="font-medium mb-2">E-Mail Support</h4>
-                    <a href="mailto:support@blitzclient.com" class="text-[#40E0D0] hover:underline">support@blitzclient.com</a>
                 </div>
+                
+                <!-- Screenshot 3 -->
+                <div class="hover-scale">
+                    <div class="glass-card rounded-xl overflow-hidden animate-float" style="animation: slideInBottomRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.6s, float 6s ease-in-out infinite 1.4s;">
+                        <img src="https://images.unsplash.com/photo-1627855437693-dcc7b0c6a487?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="BlitzClient Features" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold">Advanced Features</h3>
+                            <p class="text-gray-400 text-sm">Powerful tools at your fingertips</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 animate-text fade-in-up">
+                <a href="#" class="btn-glow bg-[#00E0DC] hover:bg-[#00B3AF] text-black font-bold px-8 py-3 rounded-md text-lg transition-all duration-300">
+                    Download Now
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <div class="w-8 h-8 rounded-lg bg-[#40E0D0] flex items-center justify-center mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <span class="font-bold">BlitzClient</span>
+    <footer class="bg-[#050505] py-12 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold">
+                        <span class="text-[#00E0DC]">Blitz</span>Client
+                    </h2>
+                    <p class="text-gray-400 mt-2">The ultimate Minecraft experience</p>
+                </div>
+                
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="#" class="social-icon text-gray-400 hover:text-[#00E0DC] text-xl transition-colors duration-300">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-[#00E0DC] text-xl transition-colors duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-[#00E0DC] text-xl transition-colors duration-300">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-icon text-gray-400 hover:text-[#00E0DC] text-xl transition-colors duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                
+                <div class="text-gray-400 text-sm">
+                    <p>&copy; 2023 BlitzClient. All rights reserved.</p>
+                    <div class="flex space-x-4 mt-2">
+                        <a href="#" class="hover:text-[#00E0DC] transition-colors duration-300">Terms</a>
+                        <a href="#" class="hover:text-[#00E0DC] transition-colors duration-300">Privacy</a>
+                        <a href="#" class="hover:text-[#00E0DC] transition-colors duration-300">Legal</a>
                     </div>
-                    <p class="text-gray-400">Der schnellste und sicherste Minecraft Client für deine Abenteuer.</p>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Home</a></li>
-                        <li><a href="#features" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Features</a></li>
-                        <li><a href="#download" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Download</a></li>
-                        <li><a href="#support" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Support</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Rechtliches</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Impressum</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Datenschutz</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Nutzungsbedingungen</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-[#40E0D0] transition-colors">Cookie-Richtlinie</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-bold mb-4">Newsletter</h4>
-                    <p class="text-gray-400 mb-4">Bleibe auf dem Laufenden mit Updates und Neuigkeiten.</p>
-                    <form class="flex">
-                        <input type="email" placeholder="Deine E-Mail" class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-900 w-full">
-                        <button type="submit" class="bg-[#40E0D0] text-black px-4 py-2 rounded-r-lg font-medium">Anmelden</button>
-                    </form>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                <p>&copy; 2023 BlitzClient. Alle Rechte vorbehalten. Minecraft ist eine Marke der Mojang Studios.</p>
+            <div class="mt-12 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>Minecraft is a trademark of Mojang Studios. BlitzClient is not affiliated with Mojang or Microsoft.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Lightning animation
+        // Initialize GSAP animations
         document.addEventListener('DOMContentLoaded', function() {
-            const svg = document.getElementById('lightningCanvas');
-            const width = window.innerWidth;
-            const height = window.innerHeight;
+            // Register ScrollTrigger plugin
+            gsap.registerPlugin(ScrollTrigger);
             
-            // Set SVG dimensions
-            svg.setAttribute('width', width);
-            svg.setAttribute('height', height);
-            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-            
-            // Create lightning paths
-            function createLightning() {
-                const paths = [];
-                
-                // Create 3-5 lightning paths
-                for (let i = 0; i < 4; i++) {
-                    const startX = Math.random() * width;
-                    const startY = Math.random() * height * 0.3;
-                    const endX = startX + (Math.random() - 0.5) * width * 0.3;
-                    const endY = startY + Math.random() * height * 0.7;
-                    
-                    // Create jagged lightning path
-                    let path = `M${startX},${startY} `;
-                    const segments = 5 + Math.floor(Math.random() * 5);
-                    const segmentWidth = (endX - startX) / segments;
-                    const segmentHeight = (endY - startY) / segments;
-                    
-                    for (let j = 1; j <= segments; j++) {
-                        const x = startX + j * segmentWidth + (Math.random() - 0.5) * 50;
-                        const y = startY + j * segmentHeight + (Math.random() - 0.5) * 30;
-                        path += `L${x},${y} `;
-                    }
-                    
-                    paths.push(path);
-                }
-                
-                return paths;
-            }
-            
-            // Add lightning paths to SVG
-            function addLightning() {
-                const paths = createLightning();
-                
-                // Clear existing paths
-                while (svg.firstChild) {
-                    svg.removeChild(svg.firstChild);
-                }
-                
-                // Add new paths with random delays
-                paths.forEach((path, index) => {
-                    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                    pathElement.setAttribute("d", path);
-                    pathElement.setAttribute("class", "lightning-path");
-                    pathElement.style.animationDelay = `${index * 3 + Math.random() * 5}s`;
-                    svg.appendChild(pathElement);
+            // Animate all elements with animate-text class
+            gsap.utils.toArray('.animate-text').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: "power2.out"
                 });
-            }
+            });
             
-            // Initial lightning
-            addLightning();
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-[#050505]');
+                    navbar.classList.remove('bg-opacity-90');
+                } else {
+                    navbar.classList.remove('bg-[#050505]');
+                    navbar.classList.add('bg-opacity-90');
+                }
+            });
             
-            // Change lightning periodically
-            setInterval(addLightning, 20000);
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
             
-            // Responsive adjustments
-            window.addEventListener('resize', function() {
-                const newWidth = window.innerWidth;
-                const newHeight = window.innerHeight;
-                svg.setAttribute('width', newWidth);
-                svg.setAttribute('height', newHeight);
-                svg.setAttribute('viewBox', `0 0 ${newWidth} ${newHeight}`);
+            // Hero section parallax effect
+            gsap.to('.hero-bg', {
+                scrollTrigger: {
+                    scrub: true
+                },
+                y: 100,
+                ease: "none"
+            });
+            
+            // Feature cards animation with dramatic swing
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    x: i % 2 === 0 ? -100 : 100,
+                    y: 50,
+                    rotation: i % 2 === 0 ? -30 : 30,
+                    opacity: 0,
+                    duration: 1.2,
+                    delay: i * 0.1,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+
+            // Floating animation for screenshots
+            gsap.utils.toArray('.hover-scale').forEach((item, i) => {
+                gsap.to(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    y: -15,
+                    duration: 2,
+                    delay: i * 0.1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            });
+
+            // Pulse animation for buttons
+            gsap.utils.toArray('.btn-glow').forEach(btn => {
+                gsap.to(btn, {
+                    scale: 1.05,
+                    duration: 2,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power1.inOut"
+                });
+            });
+            
+            // Changelog cards animation
+            gsap.utils.toArray('.changelog-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.5,
+                    delay: i * 0.1,
+                    ease: "power2.out"
+                });
             });
         });
     </script>
